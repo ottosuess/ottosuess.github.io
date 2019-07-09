@@ -20,7 +20,9 @@ This exploit does not always succeed for Mallory. She does neither knows that Bo
 
 Overpaying does aid privacy. Let's say you have a channel to a popular service selling articles for 150 satoshi. Every time you are routing a 150 satoshi payment over that channel you can assume that payment was used to buy an article. To prevent this people buying articles could overpay and send a more random looking amount to the final node.
 
-### Solution
+The reason for only accepting payments up to twice the amount expected is to not allow "accidental gross overpayment". For zero amount payments this check is disabled.
+
+###  A possible solution
 A more secure way to send payments without a fixed amount would be so called spontaneous payments (formerly known as sphinx payments). Spontaneous payments can be sent without first receiving invoices from the destination. The sender creates the preimage and includes it in the onion routed package in a way that only the final destination can decode it.
 
 If an intermediate node now sends a payment with the same hash to the final destination, the final destination has no way of knowing the preimage and collecting the payment.
@@ -28,6 +30,6 @@ If an intermediate node now sends a payment with the same hash to the final dest
 Spontaneous payments are not available in any of the major lightning clients at the time of writing. However there is a [pull request for lnd](https://github.com/lightningnetwork/lnd/pull/2455) implementing spontaneous payments and a [sample implementation for c-lightning](https://lists.linuxfoundation.org/pipermail/lightning-dev/2019-June/002009.html).
 
 ### Conclusion
-Optional amount invoices should be deprecated from the LN-spec because they can not be executed in a trestles way. Especially now there are the more secure spontaneous payments in development.
+Optional amount invoices should be deprecated from the LN-spec because they can not be executed in a trustless way. Spontaneous payments provide a more secure alternative that could replace zero amount invoices.
 
 If you know a reason why 0 amount invoices should exist [let me know on twitter](https://twitter.com/ottosuess) or make a PR on GitHub.
